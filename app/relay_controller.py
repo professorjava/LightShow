@@ -1,5 +1,6 @@
 import time
 from abc import ABCMeta, abstractmethod
+from pylibftdi import BitBangDevice
 
 
 class RelayController(object):
@@ -59,15 +60,14 @@ class TestRelayController(RelayController):
         return channels
 
 
-# from pylibftdi import BitBangDevice
 class FtdiRelayController(RelayController):
     def __init__(self, observer, serial_number, debug):
         super(FtdiRelayController, self).__init__(observer, debug)
 
         if serial_number is None:
-            pass  # self.relay = BitBangDevice()
+            self.relay = BitBangDevice()
         else:
-            pass  # self.relay = BitBangDevice(serial_number)
+            self.relay = BitBangDevice(serial_number)
 
     def _on(self, bitmask):
         self.relay.port = self.relay.port | bitmask
