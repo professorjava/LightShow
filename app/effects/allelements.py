@@ -97,7 +97,8 @@ class AllElements(object):
         FlashEffect.alternate(relay_controller, glob.ch_all_porch, glob.ch_all_trees)
 
     # They all flash on and off together, speeding up
-    def pulse(self, relay_controller, debug):
+    @staticmethod
+    def pulse(relay_controller, debug):
         if debug:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
@@ -109,7 +110,8 @@ class AllElements(object):
                 count += 1
 
     # Turn each element on in turn, then off in turn
-    def one_by_one(self, relay_controller, debug):
+    @staticmethod
+    def one_by_one(relay_controller, debug):
         if debug:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
