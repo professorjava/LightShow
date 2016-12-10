@@ -1,63 +1,83 @@
-from glob import ch_1_tree, ch_2_trees, ch_all_trees
-from effectsutils import FlashEffect, PulseEffect
+import inspect
+
+from app.constants import BASIC
+from constants import CH_1_TREE, CH_2_TREES, CH_ALL_TREES
+from effectsutils import FlashEffects
+
 
 class OneTree(object):
+    @staticmethod
+    def flash(relay_controller, debug):
+        """Flash OneTree"""
+        if debug >= BASIC:
+            print "OneTree.%s" % inspect.currentframe().f_code.co_name
 
-    # Flash OneTree
-    def flash(self, relay_controller, debug):
-        if debug: print "OneTree.flash"
+        FlashEffects.flash(relay_controller, CH_1_TREE)
 
-        FlashEffect().flash(relay_controller, ch_1_tree)
+    @staticmethod
+    def strobe(relay_controller, debug):
+        """Strobe OneTree"""
+        if debug >= BASIC:
+            print "OneTree.%s" % inspect.currentframe().f_code.co_name
 
-    # Strobe OneTree
-    def strobe(self, relay_controller, debug):
-        if debug: print "OneTree.strobe"
+        FlashEffects.strobe(relay_controller, CH_1_TREE)
 
-        FlashEffect().strobe(relay_controller, ch_1_tree)
+    @staticmethod
+    def pulse(relay_controller, debug):
+        """The OneTree flashes on and off, speeding up"""
+        if debug >= BASIC:
+            print "OneTree.%s" % inspect.currentframe().f_code.co_name
 
-    # The OneTree flashes on and off, speeding up
-    def pulse(self, relay_controller, debug):
-        if debug: print "OneTree.pulse"
+        FlashEffects.pulse(relay_controller, CH_1_TREE)
 
-        PulseEffect().pulse(relay_controller, ch_1_tree)
 
 class TwoTrees(object):
+    @staticmethod
+    def flash(relay_controller, debug):
+        """Flash TwoTrees"""
+        if debug >= BASIC:
+            print "TwoTrees.%s" % inspect.currentframe().f_code.co_name
 
-    # Flash TwoTrees
-    def flash(self, relay_controller, debug):
-        if debug: print "TwoTrees.flash"
+        FlashEffects.flash(relay_controller, CH_2_TREES)
 
-        FlashEffect().flash(relay_controller, ch_2_trees)
+    @staticmethod
+    def strobe(relay_controller, debug):
+        """Strobe TwoTrees"""
+        if debug >= BASIC:
+            print "TwoTrees.%s" % inspect.currentframe().f_code.co_name
 
-    # Strobe TwoTrees
-    def strobe(self, relay_controller, debug):
-        if debug: print "TwoTrees.strobe"
+        FlashEffects.strobe(relay_controller, CH_2_TREES)
 
-        FlashEffect().strobe(relay_controller, ch_2_trees)
+    @staticmethod
+    def pulse(relay_controller, debug):
+        """The TwoTrees flashes on and off, speeding up"""
+        if debug >= BASIC:
+            print "TwoTrees.%s" % inspect.currentframe().f_code.co_name
 
-    # The TwoTrees flashes on and off, speeding up
-    def pulse(self, relay_controller, debug):
-        if debug: print "TwoTrees.pulse"
+        FlashEffects.pulse(relay_controller, CH_2_TREES)
 
-        PulseEffect().pulse(relay_controller, ch_2_trees)
 
 class AllTrees(object):
+    @staticmethod
+    def flash(relay_controller, debug):
+        """Flash AllTrees"""
+        if debug >= BASIC:
+            print "AllTrees.%s" % inspect.currentframe().f_code.co_name
 
-    # Flash AllTrees
-    def flash(self, relay_controller, debug):
-        if debug: print "AllTrees.flash"
+        FlashEffects.flash(relay_controller, CH_ALL_TREES)
 
-        FlashEffect().flash(relay_controller, ch_all_trees)
+    @staticmethod
+    def strobe(relay_controller, debug):
+        """Strobe AllTrees"""
+        if debug >= BASIC:
+            print "AllTrees.%s" % inspect.currentframe().f_code.co_name
 
-    # Strobe AllTrees
-    def strobe(self, relay_controller, debug):
-        if debug: print "AllTrees.strobe"
+        FlashEffects.strobe(relay_controller, CH_ALL_TREES)
 
-        FlashEffect().strobe(relay_controller, ch_all_trees)
+    @staticmethod
+    def pulse(relay_controller, debug):
+        """The AllTrees flashes on and off, speeding up"""
+        if debug >= BASIC:
+            print "AllTrees.%s" % inspect.currentframe().f_code.co_name
 
-    # The AllTrees flashes on and off, speeding up
-    def pulse(self, relay_controller, debug):
-        if debug: print "AllTrees.pulse"
-
-        PulseEffect().pulse(relay_controller, ch_all_trees)
-    # Alternate between the 1 tree and 2 trees
+        FlashEffects.pulse(relay_controller, CH_ALL_TREES)

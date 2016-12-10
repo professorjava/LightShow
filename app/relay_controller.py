@@ -2,6 +2,8 @@ import time
 from abc import ABCMeta, abstractmethod
 from pylibftdi import BitBangDevice
 
+from constants import DETAILED
+
 
 class RelayController(object):
     __metaclass__ = ABCMeta
@@ -27,7 +29,7 @@ class RelayController(object):
         if self.observer is not None:
             self.observer.update(self.current_value)
 
-        if self.debug:
+        if self.debug >= DETAILED:
             print operation, "{0:0>8b}".format(self.current_value)
 
         if delay is not None:
