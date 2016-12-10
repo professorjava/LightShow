@@ -1,7 +1,10 @@
+import time
 import inspect
+import random
 
-from effectsutils import FlashEffect, CycleEffect
-import glob
+import constants
+from app.constants import BASIC
+from effectsutils import FlashEffects, CycleEffects
 
 
 class AllElements(object):
@@ -11,125 +14,139 @@ class AllElements(object):
     def cycle1(relay_controller, debug):
         """Cycle all of the elements at a single speed"""
 
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
-        CycleEffect.cycle_lit_element_single_speed(relay_controller, glob.ch_green_box, glob.ch_santa, glob.ch_blue_box,
-                                                   glob.ch_red_box, glob.ch_dog, glob.ch_1_tree, glob.ch_2_trees)
+        CycleEffects.cycle_lit_element_single_speed(relay_controller, constants.CH_ALL_LIST)
 
     @staticmethod
     def cycle2(relay_controller, debug):
         """Cycle all of the elements at increasing speed"""
 
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
-        CycleEffect.cycle_lit_element_with_speedup(relay_controller, glob.ch_green_box, glob.ch_santa, glob.ch_blue_box,
-                                                   glob.ch_red_box, glob.ch_dog, glob.ch_1_tree, glob.ch_2_trees)
+        CycleEffects.cycle_lit_element_with_speedup(relay_controller, constants.CH_ALL_LIST)
 
     @staticmethod
     def chase1(relay_controller, debug):
         """Chase all of the elements at a single speed"""
 
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
-        CycleEffect.cycle_darkened_element_single_speed(relay_controller, glob.ch_green_box, glob.ch_santa, glob.ch_blue_box,
-                                                        glob.ch_red_box, glob.ch_dog, glob.ch_1_tree, glob.ch_2_trees)
+        CycleEffects.cycle_darkened_element_single_speed(relay_controller, constants.CH_ALL_LIST)
 
     @staticmethod
     def chase2(relay_controller, debug):
         """Chase all of the elements at increasing speed"""
 
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
-        CycleEffect.cycle_darkened_element_with_speedup(relay_controller, glob.ch_green_box, glob.ch_santa,
-                                                        glob.ch_blue_box, glob.ch_red_box, glob.ch_dog,
-                                                        glob.ch_1_tree, glob.ch_2_trees)
+        CycleEffects.cycle_darkened_element_with_speedup(relay_controller, constants.CH_ALL_LIST)
 
     @staticmethod
     def bounce1(relay_controller, debug):
         """Cylon eyes across all elements"""
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
-        CycleEffect.bounce_lit_element(relay_controller, glob.ch_green_box, glob.ch_santa, glob.ch_blue_box,
-                                       glob.ch_red_box, glob.ch_dog, glob.ch_1_tree, glob.ch_2_trees)
+        CycleEffects.bounce_lit_element(relay_controller, constants.CH_ALL_LIST)
 
     @staticmethod
     def bounce2(relay_controller, debug):
         """Inverse Cylon eyes across all elements"""
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
-        CycleEffect.bounce_darkened_element(relay_controller, glob.ch_green_box, glob.ch_santa, glob.ch_blue_box,
-                                            glob.ch_red_box, glob.ch_dog, glob.ch_1_tree, glob.ch_2_trees)
+        CycleEffects.bounce_darkened_element(relay_controller, constants.CH_ALL_LIST)
 
     @staticmethod
     def flash_all(relay_controller, debug):
         """Flashes all of the elements together"""
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
-        FlashEffect.flash(relay_controller, glob.ch_all)
+        FlashEffects.flash(relay_controller, constants.CH_ALL)
 
     @staticmethod
-    def flash_porch(relay_controller, debug):
-        """Alternately flashes the gift boxes and santa + dog"""
+    def alternate(relay_controller, debug):
+        """Alternately flashes the even and odd elements"""
 
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
-        FlashEffect.alternate(relay_controller, glob.ch_all_boxes, glob.ch_santa + glob.ch_dog)
-
-    @staticmethod
-    def flash_trees(relay_controller, debug):
-        """Alternately flashes the two tree groups"""
-
-        if debug:
-            print "AllElements.%s" % inspect.currentframe().f_code.co_name
-        FlashEffect.alternate(relay_controller, glob.ch_1_tree, glob.ch_2_trees)
+        FlashEffects.alternate(relay_controller,
+                               constants.CH_GREEN_BOX + constants.CH_RED_BOX + constants.CH_1_TREE,
+                               constants.CH_SANTA + constants.CH_BLUE_BOX + constants.CH_DOG + constants.CH_2_TREES)
 
     @staticmethod
     def alternate_porch_and_trees(relay_controller, debug):
         """Alternately flashes all the trees and all the porch items"""
 
-        if debug:
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
-        FlashEffect.alternate(relay_controller, glob.ch_all_porch, glob.ch_all_trees)
+        FlashEffects.alternate(relay_controller, constants.CH_ALL_PORCH, constants.CH_ALL_TREES)
 
     # They all flash on and off together, speeding up
     @staticmethod
     def pulse(relay_controller, debug):
-        if debug:
+        if debug >= BASIC:
+            print "AllElements.%s" % inspect.currentframe().f_code.co_name
+        FlashEffects.pulse(relay_controller, constants.CH_ALL)
+
+    @staticmethod
+    def sliding_doors(relay_controller, debug):
+        """A pair of lights pulse out from the middle, and back, like a pair
+            of sliding doors.
+        """
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
-        count = 1
-        for delay in [.5, .4, .3, .2, .1]:
-            for y in range(0, count):
-                relay_controller.off(glob.ch_all, delay)
-                relay_controller.on(glob.ch_all, delay)
-                count += 1
+        relay_controller.off(constants.CH_NONE)
+        for x in range(0, 3):
+            relay_controller.set(constants.CH_RED_BOX, .3)
+            relay_controller.set(constants.CH_BLUE_BOX + constants.CH_DOG, .3)
+            relay_controller.set(constants.CH_SANTA + constants.CH_1_TREE, .3)
+            relay_controller.set(constants.CH_GREEN_BOX + constants.CH_2_TREES, .3)
+            relay_controller.set(constants.CH_SANTA + constants.CH_1_TREE, .3)
+            relay_controller.set(constants.CH_BLUE_BOX + constants.CH_DOG, .3)
 
-    # Turn each element on in turn, then off in turn
     @staticmethod
     def one_by_one(relay_controller, debug):
-        if debug:
+        """Turn each element on in turn, then off in turn"""
+        if debug >= BASIC:
             print "AllElements.%s" % inspect.currentframe().f_code.co_name
 
         delay = 1
-        relay_controller.off(glob.ch_all, delay)
+        relay_controller.off(constants.CH_ALL, delay)
 
-        relay_controller.on(glob.ch_green_box, delay)
-        relay_controller.on(glob.ch_blue_box, delay)
-        relay_controller.on(glob.ch_santa, delay)
-        relay_controller.on(glob.ch_red_box, delay)
-        relay_controller.on(glob.ch_dog, delay)
-        relay_controller.on(glob.ch_1_tree, delay)
-        relay_controller.on(glob.ch_2_trees, delay)
+        relay_controller.on(constants.CH_GREEN_BOX, delay)
+        relay_controller.on(constants.CH_SANTA, delay)
+        relay_controller.on(constants.CH_BLUE_BOX, delay)
+        relay_controller.on(constants.CH_RED_BOX, delay)
+        relay_controller.on(constants.CH_DOG, delay)
+        relay_controller.on(constants.CH_1_TREE, delay)
+        relay_controller.on(constants.CH_2_TREES, delay)
 
-        relay_controller.off(glob.ch_green_box, delay)
-        relay_controller.off(glob.ch_blue_box, delay)
-        relay_controller.off(glob.ch_santa, delay)
-        relay_controller.off(glob.ch_red_box, delay)
-        relay_controller.off(glob.ch_dog, delay)
-        relay_controller.off(glob.ch_1_tree, delay)
-        relay_controller.off(glob.ch_2_trees, delay)
+        relay_controller.off(constants.CH_GREEN_BOX, delay)
+        relay_controller.off(constants.CH_SANTA, delay)
+        relay_controller.off(constants.CH_BLUE_BOX, delay)
+        relay_controller.off(constants.CH_RED_BOX, delay)
+        relay_controller.off(constants.CH_DOG, delay)
+        relay_controller.off(constants.CH_1_TREE, delay)
+        relay_controller.off(constants.CH_2_TREES, delay)
+
+    @staticmethod
+    def twinkle(relay_controller, debug):
+        """randomly turns elements quickly off and back on, creating a twinkling effect"""
+
+        if debug >= BASIC:
+            print "AllElements.%s" % inspect.currentframe().f_code.co_name
+
+        elements = random.sample(constants.CH_ALL_LIST, len(constants.CH_ALL_LIST))
+
+        relay_controller.on(constants.CH_ALL)
+        for ch in elements:
+            relay_controller.off(ch, .1)
+            relay_controller.on(ch)
+            delay = .7 + .1 * random.randint(0, 6)
+            time.sleep(delay)

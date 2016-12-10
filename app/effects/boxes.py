@@ -1,87 +1,50 @@
-from glob import *
-from effectsutils import FlashEffect, PulseEffect
+import inspect
+
+from app.constants import BASIC
+from app.effects import constants
+from effectsutils import FlashEffects, CycleEffects
 
 
 class Boxes(object):
-    # The boxes' lights cycle in a circle
-    def cycle(self, relay_controller, debug):
-        if debug: print "Boxes.cycle"
+    @staticmethod
+    def cycle(relay_controller, debug):
+        """The boxes' lights cycle in a circle"""
+        if debug >= BASIC:
+            print "Boxes.%s" % inspect.currentframe().f_code.co_name
+        CycleEffects.cycle_lit_element_with_speedup(relay_controller, constants.CH_ALL_BOXES_LIST)
 
-        count = 3
-        delay = .5
-        for x in range(0, count):
-            relay_controller.off(ch_all_boxes);
-            relay_controller.on(ch_green_box, delay)
-            relay_controller.off(ch_all_boxes);
-            relay_controller.on(ch_red_box, delay)
-            relay_controller.off(ch_all_boxes);
-            relay_controller.on(ch_blue_box, delay)
-        return
+    @staticmethod
+    def chase(relay_controller, debug):
+        """An unlit box chases around the circle"""
+        if debug >= BASIC:
+            print "Boxes.%s" % inspect.currentframe().f_code.co_name
+        CycleEffects.cycle_darkened_element_with_speedup(relay_controller, constants.CH_ALL_BOXES_LIST)
 
-    # An unlit box chases around the circle
-    def chase(self, relay_controller, debug):
-        if debug: print "Boxes.chase"
+    @staticmethod
+    def strobe(relay_controller, debug):
+        """The boxes flash relay_controller.on and relay_controller.off together"""
+        if debug >= BASIC:
+            print "Boxes.%s" % inspect.currentframe().f_code.co_name
+        FlashEffects.strobe(relay_controller, constants.CH_ALL_BOXES)
 
-        count = 5
-        delay = .1
-        for x in range(0, count):
-            relay_controller.on(ch_all_boxes, delay);
-            relay_controller.off(ch_blue_box, delay)
-            relay_controller.on(ch_all_boxes, delay);
-            relay_controller.off(ch_green_box, delay)
-            relay_controller.on(ch_all_boxes, delay);
-            relay_controller.off(ch_red_box, delay)
-        return
+    @staticmethod
+    def pulse(relay_controller, debug):
+        """The boxes flash relay_controller.on and relay_controller.off together, speeding up"""
+        if debug >= BASIC:
+            print "Boxes.%s" % inspect.currentframe().f_code.co_name
+        FlashEffects.pulse(relay_controller, constants.CH_ALL_BOXES)
 
-    # The boxes flash relay_controller.on and relay_controller.off together
-    def strobe_all(self, relay_controller, debug):
-        if debug: print "Boxes.flash"
+    @staticmethod
+    def cylon_eyes(relay_controller, debug):
+        """A single lit box travels back and forth, Like a cylon eye"""
+        if debug >= BASIC:
+            print "Boxes.%s" % inspect.currentframe().f_code.co_name
 
-        FlashEffect().flash(relay_controller, ch_all_boxes)
-        return
+        CycleEffects.bounce_lit_element(relay_controller, constants.CH_ALL_BOXES_LIST)
 
-    # The boxes flash relay_controller.on and relay_controller.off together, speeding up
-    def pulse(self, relay_controller, debug):
-        if debug: print "Boxes.pulse"
-
-        PulseEffect().pulse(relay_controller, ch_all_boxes)
-        return
-
-    # Strobe the green box
-    def strobe_green(self, relay_controller, debug):
-        if debug: print "Boxes.strobe_green"
-
-        FlashEffect().strobe(relay_controller, ch_green_box)
-        return
-
-    # Strobe the blue box
-    def strobe_blue(self, relay_controller, debug):
-        if debug: print "Boxes.strobe_blue"
-
-        FlashEffect().strobe(relay_controller, ch_blue_box)
-        return
-
-    # Strobe the red box
-    def strobe_red(self, relay_controller, debug):
-        if debug: print "Boxes.strobe_red"
-
-        FlashEffect().strobe(relay_controller, ch_red_box)
-        return
-
-    # A single lit box travels back and forth, Like a cylon eye
-    def cylon_eyes(self, relay_controller, debug):
-        if debug: print "Boxes.cylon_eyes"
-
-        count = 5
-        delay = .3
-        relay_controller.off(ch_all_boxes)
-        for x in range(0, count):
-            relay_controller.on(ch_green_box, delay);
-            relay_controller.off(ch_green_box)
-            relay_controller.on(ch_blue_box, delay);
-            relay_controller.off(ch_blue_box)
-            relay_controller.on(ch_red_box, delay);
-            relay_controller.off(ch_red_box)
-            relay_controller.on(ch_blue_box, delay);
-            relay_controller.off(ch_blue_box)
-        return
+    @staticmethod
+    def alternate(relay_controller, debug):
+        """Alternately flashes a pair of boxes and the remaining box"""
+        if debug >= BASIC:
+            print "Boxes.%s" % inspect.currentframe().f_code.co_name
+        FlashEffects.alternate(relay_controller, constants.CH_GREEN_BOX + constants.CH_RED_BOX, constants.CH_BLUE_BOX)

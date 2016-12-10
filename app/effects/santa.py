@@ -1,32 +1,39 @@
-from glob import *
-from effectsutils import FlashEffect, PulseEffect, MorseCodeEffect
+import inspect
+
+from app.constants import BASIC
+from constants import *
+from effectsutils import FlashEffects, MorseCodeEffects
+
 
 class Santa(object):
+    @staticmethod
+    def flash(relay_controller, debug):
+        """Flash santa's nose"""
+        if debug >= BASIC:
+            print "Santa.%s" % inspect.currentframe().f_code.co_name
 
-    # Flash santa's nose
-    def flash(self, relay_controller, debug):
-        if debug: print "Santa.flash"
+        FlashEffects().flash(relay_controller, CH_SANTA)
 
-        FlashEffect().flash(relay_controller, ch_santa)
-        return
+    @staticmethod
+    def strobe(relay_controller, debug):
+        """# Strobe santa's nose"""
+        if debug >= BASIC:
+            print "Santa.%s" % inspect.currentframe().f_code.co_name
 
-    # Strobe santa's nose
-    def strobe(self, relay_controller, debug):
-        if debug: print "Santa.strobe"
+        FlashEffects().strobe(relay_controller, CH_SANTA)
 
-        FlashEffect().strobe(relay_controller, ch_santa)
-        return
+    @staticmethod
+    def pulse(relay_controller, debug):
+        """The santa flashes on and off, speeding up"""
+        if debug >= BASIC:
+            print "Santa.%s" % inspect.currentframe().f_code.co_name
 
-    # The santa flashes on and off, speeding up
-    def pulse(self, relay_controller, debug):
-        if debug: print "Santa.pulse"
+        FlashEffects.pulse(relay_controller, CH_SANTA)
 
-        PulseEffect().pulse(relay_controller, ch_santa)
-        return
+    @staticmethod
+    def merry_christmas(relay_controller, debug):
+        """Flash Merry Christmas using Santa's nose"""
+        if debug >= BASIC:
+            print "Santa.%s" % inspect.currentframe().f_code.co_name
 
-    # Flash Merry Christmas using Santa's nose
-    def merry_christmas(self, relay_controller, debug):
-        if debug: print "Santa.merry_christmas";
-        
-        MorseCodeEffect().display_as_morse(relay_controller, debug, ch_santa, "Merry Christmas")
-        return
+        MorseCodeEffects().display_as_morse(relay_controller, debug, CH_SANTA, 'Merry Christmas')
